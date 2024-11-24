@@ -1,0 +1,12 @@
+shopping_data:
+  outputs:
+    dev:
+      dbname: dbt_tutorial
+      host: postgres
+      pass: admin
+      port: 5432
+      schema: analytics_shopping
+      threads: 1
+      type: postgres
+      user: admin
+  target: dev

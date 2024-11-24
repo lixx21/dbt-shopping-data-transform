@@ -1,0 +1,64 @@
+version: '3.8'
+  
+services:
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: dbt_tutorial
+    volumes:
+      - postgres-db-volume:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - network
+  #  restart: on-failure 
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    container_name: pgAdmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@example.com
+      - PGADMIN_DEFAULT_PASSWORD=123456
+      - PGADMIN_LISTEN_PORT=5050
+    ports:
+      - "5050:5050"
+    volumes:
+      - pgadminvolume:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    networks:
+      - network
+
+  dbt-console:
+    build: shopping_data/.
+    container_name: dbt
+    command: [ "/bin/bash" ]
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./shopping_data/:/app
+    networks:
+      - network
+
+  elt:
+    build: load_data/.
+    container_name: load_data
+    depends_on:
+      - postgres
+    networks:
+      - network
+    command: >
+      /bin/sh -c 'python load_data.py'
+
+
+networks:
+  network:
+    driver: bridge
+
+volumes:
+  pgadminvolume:
+  postgres-db-volume:
