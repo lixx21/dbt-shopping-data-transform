@@ -31,4 +31,4 @@ This project demonstrates the creation of a data mart/data view using Pandas, Po
 
 ## Example Data Mart
 
-[view-data-sum-itme-category.png](./images/view-data-sum-item-category.png)
+![view-data-sum-itme-category.png](./images/view-data-sum-item-category.png)
