@@ -5,7 +5,7 @@ shopping_data:
       host: postgres
       pass: admin
       port: 5432
-      schema: analytics_shopping
+      schema: analytics_shopping #schema in database
       threads: 1
       type: postgres
       user: admin
